@@ -12,6 +12,8 @@ const Home = () => {
 
     const [crime, setCrime] = useState('Steal wallet');
 
+    const [size, setSize] = useState()
+
     const handleDelete = (id) => {
         const newTodos = todos.filter(todo => todo.id !== id);
         setTodos(newTodos);
@@ -23,8 +25,25 @@ const Home = () => {
         console.log(crime);
     }, [crime])
 
+    useEffect(() => {
+        const handleResize = () => {
+            setSize(window.screen.width)
+        }
+
+        window.addEventListener("resize", handleResize);
+
+
+        handleResize();
+
+        return () => window.removeEventListener("resize", handleResize);
+    })
+
+
+
     return ( 
         <div className="home">
+            <h3>{window.screen.width}</h3>
+            <h3>{size}</h3>
             <ToDoItem todos={todos} title="All Todos" handleDelete={handleDelete} />
             <button onClick={() => setCrime('Steal car')}>COMMIT CRIME</button>
             <h1>Next crime: {crime}</h1>
